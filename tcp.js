@@ -3,8 +3,8 @@ http.createServer(function (req, res) {
   res.writeHead(200, {'Content-Type': 'text/plain'});
   res.end('Hello World\n');
   console.log(req);
-}).listen(1337, "10.243.93.141");
-console.log('1337, 10.243.93.141');
+}).listen(1337, "107.21.108.104");
+console.log('1337, 107.21.108.104');
 
 
 /*var net =  require('net');
