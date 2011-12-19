@@ -2,7 +2,7 @@
     <head>
      <!-- <META HTTP-EQUIV="REFRESH" CONTENT="1">-->
      <script type="application/javascript" src="classes.js"></script>
-     <script src="http://localhost:4000/socket.io/socket.io.js"></script>
+     <script src="http://107.21.108.104:4000/socket.io/socket.io.js"></script>
      <script type="application/javascript">
 
         
@@ -53,7 +53,7 @@ function wheel(event){
 	event.returnValue = false;
 }
 
-        var socket = io.connect('http://localhost:4000');
+        var socket = io.connect('http://107.21.108.104:4000');
         var graphics = new Graphics();        
         var person = new Person(150,50, 10, new Color(238,233,233,1), 10,graphics );
         var person2 = new Person(550,350, 10, new Color(238,233,233,1), 10,graphics );
