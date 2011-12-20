@@ -1,57 +1,12 @@
 <html>
     <head>
-     <!-- <META HTTP-EQUIV="REFRESH" CONTENT="1">-->
+    <meta name = "viewport" content = "width = device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;">
+     <script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" ></script>
      <script type="application/javascript" src="classes.js"></script>
+     <script type="application/javascript" src="level.js"></script>
      <script src="http://107.21.108.104:4000/socket.io/socket.io.js"></script>
      <script type="application/javascript">
 
-        
-        /** This is high-level function.
- * It must react to delta being more/less than zero.
- */
-function handle(delta) {
-        if (delta < 0)
-        {
-		     	context.scale(1.5, 1.5);
-		     }
-        else
-        {
-		     	context.scale(0.5, 0.5);
-		     }
-}
-
-/** Event handler for mouse wheel event.
- */
-function wheel(event){
-        var delta = 0;
-        if (!event) /* For IE. */
-                event = window.event;
-        if (event.wheelDelta) { /* IE/Opera. */
-                delta = event.wheelDelta/120;
-                /** In Opera 9, delta differs in sign as compared to IE.
-                 */
-                if (window.opera)
-                        delta = -delta;
-        } else if (event.detail) { /** Mozilla case. */
-                /** In Mozilla, sign of delta is different than in IE.
-                 * Also, delta is multiple of 3.
-                 */
-                delta = -event.detail/3;
-        }
-        /** If delta is nonzero, handle it.
-         * Basically, delta is now positive if wheel was scrolled up,
-         * and negative, if wheel was scrolled down.
-         */
-        if (delta)
-                handle(delta);
-        /** Prevent default actions caused by mouse wheel.
-         * That might be ugly, but we handle scrolls somehow
-         * anyway, so don't bother here..
-         */
-        if (event.preventDefault)
-                event.preventDefault();
-	event.returnValue = false;
-}
 
         var socket = io.connect('http://107.21.108.104:4000');
         var graphics = new Graphics();        
@@ -59,146 +14,113 @@ function wheel(event){
         var person2 = new Person(550,350, 10, new Color(238,233,233,1), 10,graphics );
         var sickPerson = new Person(250,250, 10, new Color(215,0,0,1),40, graphics);
         var doctor = new Person(150,450, 10, new Color(0,255,0,1), -40, graphics);
+        var level;
 
-         socket.on('smove', function(data) {
+        socket.on('smove', function(data) {           
+                person.position = data.person.position;
+        });
             
-           // console.log(data.person);
-            person.position = data.person.position;
-         });
-        
-        		           
-        var x = 100;
-        var y = 100;
-        var canvas;
-        var context;
-		var movementAmount = 10;
-      
-    function init(){
-               
-            canvas = document.getElementById("canvas");
-            context = canvas.getContext("2d");               
-            person.heal();
-                
-            document.onkeypress = doSomething;
-			setInterval("mainLoop()",30);
-			setInterval("graphics.incermentTime()",30);
-				
-	
-            if (window.addEventListener)
-            /** DOMMouseScroll is for mozilla. */
-            window.addEventListener('DOMMouseScroll', wheel, false);
-            /** IE/Opera. */
-            window.onmousewheel = document.onmousewheel = wheel;            
-    }
-            
-                       
-    function mainLoop(){
-												
-				person.checkCollision(sickPerson);
-				person.checkCollision(doctor);
-				person2.checkCollision(person);
-                
+          
+        function init(){
                    
-				context.save();
-				context.scale(10,10);
-                context.fillStyle = "#E9EDE8";
-                context.fillRect(0, 0, 2000, 2000);
-                context.restore();
-                 
-                drawShape(context);
+                canvas = document.getElementById("canvas");
+                context = canvas.getContext("2d"); 
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+           
+                person.heal();
+               level = new level();
+                    
+                document.onkeypress = doSomething;
+    			setInterval("mainLoop()",30);
+    			setInterval("graphics.incermentTime()",30);       
+        }
+                
+                           
+        function mainLoop(){
+    												
+			person.checkCollision(sickPerson);
+			person.checkCollision(doctor);
+			person2.checkCollision(person);
+            
+               
+			context.save();
+			context.scale(10,10);
+            context.fillStyle = "#E9EDE8";
+            context.fillRect(0, 0, 2000, 2000);
+            context.restore();
              
-				graphics.drawWall(300,102,500,102);
-				graphics.drawWall(350,302,102,300);
-				graphics.drawWall(550,402,302,40);
-				graphics.drawWall(550,572,302,40);
-								
-				context.save();
-				context.fillStyle = "rgba("+88+","+88+","+88+","+ 0.5+")";
-				context.font  = '30px helvetica';
-				context.fillText("A+E", 400,50);
-				context.restore();				
+							
+			context.save();
+			context.fillStyle = "rgba("+88+","+88+","+88+","+ 0.5+")";
+			context.font  = '30px helvetica';
+			context.fillText("A+E", 300,150);
+			context.restore();				
 
-				               
-                context.strokeStyle = "#EEEEEE";
-                context.fillStyle = "#F3F1E5";
-                context.shadowOffsetX = 0;
-                context.shadowOffsetY = 0;
-                context.shadowBlur = 15;
-                context.shadowColor = "#BBBBBB";
-                
-               
-				person.draw();
-				sickPerson.draw();
-				doctor.draw();
-				person2.draw();
-     				            
-    }
-                   
+			               
+            context.strokeStyle = "#EEEEEE";
+            context.fillStyle = "#F3F1E5";
+            context.shadowOffsetX = 0;
+            context.shadowOffsetY = 0;
+            context.shadowBlur = 15;
+            context.shadowColor = "#BBBBBB";
             
-    function drawShape(){
-                context.strokeStyle = "#EEEEEE";
-                context.fillStyle = "#F3F1E5";
-                context.shadowOffsetX = 0;
-                context.shadowOffsetY = 0;
-                context.shadowBlur = 15;
-                context.shadowColor = "#BBBBBB";
+           
+			person.draw();
+			sickPerson.draw();
+			doctor.draw();
+			person2.draw();
+         			
+           // level.draw(context);	            
+        }
+             
                 
-                
-                context.fillStyle = "#EEEEEE";
-                
-                ctx = context;
-                ctx.beginPath();
-                ctx.moveTo(0, 0);
-                ctx.lineTo(100, 0);
-                ctx.lineTo(100, 100);
-                ctx.lineTo(200, 100);
-                ctx.lineTo(200, 200);
-                ctx.lineTo(100, 200);
-                ctx.lineTo(100, 500);
-                ctx.lineTo(0, 500);
-                ctx.fill();
-                
-    }
+        function doSomething(){
+
+            var movementAmount = 5;
+            if (!e) 
+                var e = window.event;
+				
+            if (e.keyCode) 
+                code = e.keyCode;
             
-       
             
-    function doSomething(){
-                if (!e) 
-                    var e = window.event;
-					
-                if (e.keyCode) 
-                    code = e.keyCode;
-                
-                
-                if (code == 119) {
-                    person.position.y -= movementAmount;
-                }
-                
-                if (code == 115) {
-                    person.position.y += movementAmount;
-                }
-                
-                
-                if (code == 100) {
-                    person.position.x += movementAmount;
-                }
-                
-                
-                if (code == 97) {
-                    person.position.x -= movementAmount;
-                }
-                
-                 if (code == 13) {
-              
-                }
-                
-                 socket.emit('smove', {person:person});  
-    }
+            if (code == 119) {
+                person.position.y -= movementAmount;
+            }
+            
+            if (code == 115) {
+                person.position.y += movementAmount;
+            }
+            
+            
+            if (code == 100) {
+                person.position.x += movementAmount;
+            }
+            
+            
+            if (code == 97) {
+                person.position.x -= movementAmount;
+            }
+            
+             if (code == 13) {
+          
+            }
+            
+    socket.emit('smove', {person:person});  
+        }
 
         </script>
+        <style>
+            * { margin:0; padding:0; } /* to remove the top and left whitespace */
+
+            html, body { width:100%; height:100%; } /* just to be sure these are full screen*/
+
+            canvas { display:block; } /* To remove the scrollbars */
+        </style>
     </head>
     <body onload="init()">
-        <canvas id="canvas" width="800" height="600" style="border:#eee 1px solid">
+        <canvas id="canvas" style="border:#eee 1px solid; width:100%;height:100%;z-index:1">
         </canvas>
     </body>
 </html>
