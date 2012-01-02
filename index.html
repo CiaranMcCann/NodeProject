@@ -3,25 +3,54 @@
     <meta name = "viewport" content = "width = device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;">
      <script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" ></script>
      <script type="application/javascript" src="classes.js"></script>
+      <script type="application/javascript" src="camera.js"></script>
      <script type="application/javascript" src="level.js"></script>
-     <script src="http://107.21.108.104:4000/socket.io/socket.io.js"></script>
+     <script src="http://127.0.0.1:4000/socket.io/socket.io.js"></script>
      <script type="application/javascript">
+     //107.21.108.104
 
-
-        var socket = io.connect('http://107.21.108.104:4000');
+        var socket = io.connect('http://127.0.0.1:4000');
         var graphics = new Graphics();        
-        var person = new Person(150,50, 10, new Color(238,233,233,1), 10,graphics );
-        var person2 = new Person(550,350, 10, new Color(238,233,233,1), 10,graphics );
-        var sickPerson = new Person(250,250, 10, new Color(215,0,0,1),40, graphics);
-        var doctor = new Person(150,450, 10, new Color(0,255,0,1), -40, graphics);
+        var personId = Math.floor(Math.random()*110);
+        var cam = new Camera(new Vector2D(3,3));
         var level;
+        var entities = [] 
+                        
+        function init(){
 
-        socket.on('smove', function(data) {           
-                person.position = data.person.position;
+        person = new Person({   
+            position: new Vector2D(200,200), 
+            radius:10, 
+            color: new Color(0,255,0,1), 
+            infectionLvl:-40, 
+            graphics: graphics, 
+            sig:  personId
         });
             
-          
-        function init(){
+            socket.emit('onConnectionCreateNewEnitiy', person);  
+            
+            socket.on('addNewPersonToWorld', function(newPerson){
+                    entities.push(new Person(newPerson) ); 
+            });           
+            socket.on('onConnectionGetEntites', function(ent){
+                    for( enty in ent){
+                        var temp = new Person(ent[enty]);
+                        temp.graphics = graphics;
+                        entities.push( temp );
+                    }
+            });
+
+            socket.on('updatePersonInWorld', function(person){
+                for( enty in entities){
+                    if(entities[enty].sig == person.sig)
+                    {
+                         entities[enty] = new Person(person);
+                    }
+                }
+            });
+
+
+
                    
                 canvas = document.getElementById("canvas");
                 context = canvas.getContext("2d"); 
@@ -29,33 +58,32 @@
                 canvas.height = window.innerHeight;
            
                 person.heal();
-               level = new level();
+                level = new level(cam);
                     
-                document.onkeypress = doSomething;
+                document.onkeypress = keyPress;
     			setInterval("mainLoop()",30);
-    			setInterval("graphics.incermentTime()",30);       
+    			setInterval("graphics.incermentTime()",30);     
+        
         }
                 
                            
         function mainLoop(){
-    												
-			person.checkCollision(sickPerson);
-			person.checkCollision(doctor);
-			person2.checkCollision(person);
-            
-               
+
+
+
 			context.save();
 			context.scale(10,10);
             context.fillStyle = "#E9EDE8";
             context.fillRect(0, 0, 2000, 2000);
             context.restore();
              
-							
+			/*				
 			context.save();
 			context.fillStyle = "rgba("+88+","+88+","+88+","+ 0.5+")";
 			context.font  = '30px helvetica';
 			context.fillText("A+E", 300,150);
-			context.restore();				
+			context.restore();	
+            */			
 
 			               
             context.strokeStyle = "#EEEEEE";
@@ -66,16 +94,26 @@
             context.shadowColor = "#BBBBBB";
             
            
-			person.draw();
-			sickPerson.draw();
-			doctor.draw();
-			person2.draw();
+			
+            for(enty in entities){
+               
+              // if(entities[enty].position.x)
+                entities[enty].draw(cam);         
+            }
+                
          			
-           // level.draw(context);	            
+            level.update();	            
         }
              
                 
-        function doSomething(){
+        function keyPress(){
+
+            var person;
+
+            for(enty in entities){
+                 if(entities[enty].sig ==  personId)
+                  person = entities[enty];
+            }
 
             var movementAmount = 5;
             if (!e) 
@@ -87,27 +125,30 @@
             
             if (code == 119) {
                 person.position.y -= movementAmount;
+                level.cam.up();
             }
             
             if (code == 115) {
                 person.position.y += movementAmount;
+                level.cam.down();
             }
             
             
             if (code == 100) {
                 person.position.x += movementAmount;
+                  level.cam.left();
             }
             
             
             if (code == 97) {
                 person.position.x -= movementAmount;
+              
+
+                level.cam.right();
             }
-            
-             if (code == 13) {
           
-            }
-            
-    socket.emit('smove', {person:person});  
+
+             socket.emit('updatePerson',person);  
         }
 
         </script>

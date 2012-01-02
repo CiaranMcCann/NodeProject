@@ -1,11 +1,43 @@
-function Person(x,y,radius,color,infectionLvl, graphics)
-{
-	this.color = color; // color , green, red etc
-	this.graphics = graphics;
-	this.position = new Vector2D(x,y);
-	this.radius = radius;
-	
-	this.infectionLvl = infectionLvl;
+	function Person(data)
+	{			
+			this.color = new Color(); // color , green, red etc
+			this.graphics = new Graphics();
+			this.position = new Vector2D();
+			this.radius = undefined;	
+			this.infectionLvl = undefined;
+			this.sig = undefined;
+			this.ip = undefined;
+
+			copy(this,data);	
+			//copy(new Person(),person);	
+	}
+
+	//Allows for the copying of Object types into their proper types, used for copy constructer
+	//for objects that are sent over the network. I have intergrated this function, into
+	// the constructor of the Person object so it acts like C-style copy construction
+	// WARNING: This creates a deep copy, so reference are not preserved
+	function copy(newObject, oldObject) {
+		for( member in oldObject )
+		{
+			// if the member is itself an object, then we most also call copy on that
+			if( typeof(oldObject[member]) == "object" )
+			{
+				newObject[member] = copy(newObject[member],oldObject[member])
+			}else{
+				// if its a primative member just assign it
+				newObject[member] = oldObject[member];
+			}			
+		}
+		return newObject;
+	};
+
+
+	/*function Person(person)
+	{
+		this = copy(new Person(),person);
+	}
+	*/
+
 
 	Person.prototype.infect = function()
 	{
@@ -27,9 +59,16 @@ function Person(x,y,radius,color,infectionLvl, graphics)
 		this.color.g++;
 	}
 	
-	Person.prototype.draw = function()
+	Person.prototype.draw = function(cam)
 	{
-		this.graphics.drawPerson(this.position.x,this.position.y,this.radius, this.infectionLvl, this.color);
+		this.graphics.drawPerson(this.position.x+cam.position.x,this.position.y+cam.position.y,this.radius, this.infectionLvl, this.color);
+						
+		context.save();
+		context.fillStyle = "rgba("+88+","+88+","+88+","+ 0.5+")";
+		context.font  = '10px helvetica';
+		context.fillText(this.ip, this.position.x+cam.position.x - this.radius*2,this.position.y+cam.position.y - this.radius*2);
+		context.restore();	
+            	
 	}
 	
 	Person.prototype.checkCollision = function(obj)
@@ -46,7 +85,9 @@ function Person(x,y,radius,color,infectionLvl, graphics)
 			
 		}
 	}
-}
+
+
+
 
 
  function Color(r,g,b,a) {
@@ -107,6 +148,7 @@ function Graphics()
 							
 						
 					}
+
 					 if(this.time >= maxR)
 						this.time = 1;
 				

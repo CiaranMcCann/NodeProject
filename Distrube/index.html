@@ -1,0 +1,30 @@
+
+<script>
+
+function MySecoundType(){
+  this.y = 8;
+}
+
+function MyType(){
+  this.x = 5;
+  this.h = new MySecoundType();
+}
+
+MyType.prototype.mul = function() {
+  this.x = this.x * 2;
+};
+
+function init(){
+
+
+var g = new MyType();
+g.mul();
+
+var p = new MyType(g);
+
+
+
+}
+</script>
+<body onload="init()">
+</body>
