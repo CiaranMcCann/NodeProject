@@ -8,35 +8,10 @@
 			this.sig = undefined;
 			this.ip = undefined;
 
-			copy(this,data);	
+			//makes this constructor function as a normal constructor and a copy constructor
+			copy(this,data);
 			//copy(new Person(),person);	
 	}
-
-	//Allows for the copying of Object types into their proper types, used for copy constructer
-	//for objects that are sent over the network. I have intergrated this function, into
-	// the constructor of the Person object so it acts like C-style copy construction
-	// WARNING: This creates a deep copy, so reference are not preserved
-	function copy(newObject, oldObject) {
-		for( member in oldObject )
-		{
-			// if the member is itself an object, then we most also call copy on that
-			if( typeof(oldObject[member]) == "object" )
-			{
-				newObject[member] = copy(newObject[member],oldObject[member])
-			}else{
-				// if its a primative member just assign it
-				newObject[member] = oldObject[member];
-			}			
-		}
-		return newObject;
-	};
-
-
-	/*function Person(person)
-	{
-		this = copy(new Person(),person);
-	}
-	*/
 
 
 	Person.prototype.infect = function()
@@ -76,21 +51,18 @@
 		var dirVector = new Vector2D(this.position.x - obj.position.x,this.position.y - obj.position.y);
 		var distance = dirVector.lenght();
 		
-		if(distance <= this.radius+this.infectionLvl)
+		if(distance <= this.radius+this.infectionLvl*7)
 		{
 			if(obj.infectionLvl >= 0)
-			this.infect();
+				this.infect();
 			else if(obj.infectionLvl <= -10)
-			this.heal();
+				this.heal();
 			
 		}
 	}
 
 
-
-
-
- function Color(r,g,b,a) {
+function Color(r,g,b,a) {
 			
 			this.r = r;
 			this.g = g;
@@ -169,14 +141,3 @@ function Graphics()
             }
 }
 
-
-function Vector2D(x,y)
-{
-	this.x = x;
-	this.y = y;
-	
-	Vector2D.prototype.lenght = function()
-	{
-		return Math.sqrt((this.x*this.x)+(this.y*this.y));
-	}
-}

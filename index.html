@@ -2,30 +2,31 @@
     <head>
     <meta name = "viewport" content = "width = device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;">
      <script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" ></script>
+     <script type="application/javascript" src="standardlib.js"></script>
      <script type="application/javascript" src="classes.js"></script>
-      <script type="application/javascript" src="camera.js"></script>
+     <script type="application/javascript" src="camera.js"></script>
      <script type="application/javascript" src="level.js"></script>
-     <script src="http://107.21.108.104:4000/socket.io/socket.io.js"></script>
+     <script src="http://127.0.0.1:4000/socket.io/socket.io.js"></script>
      <script type="application/javascript">
      //107.21.108.104
 
-        var socket = io.connect('http://107.21.108.104:4000');
+        var socket = io.connect('http://127.0.0.1:4000');
         var graphics = new Graphics();        
-        var personId = Math.floor(Math.random()*110);
+        var personId = rand(10,1000);
         var cam = new Camera(new Vector2D(3,3));
         var level;
         var entities = [] 
                         
         function init(){
 
-        person = new Person({   
-            position: new Vector2D(200,200), 
-            radius:10, 
-            color: new Color(0,255,0,1), 
-            infectionLvl:-40, 
-            graphics: graphics, 
-            sig:  personId
-        });
+            person = new Person({   
+                position: new Vector2D(rand(100,600),rand(100,310)), 
+                radius:10, 
+                color: new Color(238,233,233,1), 
+                infectionLvl:5, 
+                graphics: graphics, 
+                sig:  personId
+            });
             
             socket.emit('onConnectionCreateNewEnitiy', person);  
             
@@ -45,47 +46,46 @@
                     if(entities[enty].sig == person.sig)
                     {
                          entities[enty] = new Person(person);
+                         entities[enty].graphics = graphics;
+                    }
+                }
+            });
+
+            socket.on('onDisconnectRemovePlayer', function(sig){
+                for( enty in entities){
+                    if(entities[enty].sig == sig)
+                    {
+                        delete entities[enty];
+                        entities.splice (enty, 1);                      
                     }
                 }
             });
 
 
-
                    
-                canvas = document.getElementById("canvas");
-                context = canvas.getContext("2d"); 
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-           
-                person.heal();
-                level = new level(cam);
+            canvas = document.getElementById("canvas");
+            context = canvas.getContext("2d"); 
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;               
+            level = new level(cam);
                     
-                document.onkeypress = keyPress;
-    			setInterval("mainLoop()",30);
-    			setInterval("graphics.incermentTime()",30);     
-        
+            document.onkeypress = keyPress;
+    		setInterval("mainLoop()",24);      
         }
                 
                            
         function mainLoop(){
 
+            graphics.incermentTime();
 
-
+            //clear the screen
 			context.save();
 			context.scale(10,10);
             context.fillStyle = "#E9EDE8";
-            context.fillRect(0, 0, 2000, 2000);
-            context.restore();
-             
-			/*				
-			context.save();
-			context.fillStyle = "rgba("+88+","+88+","+88+","+ 0.5+")";
-			context.font  = '30px helvetica';
-			context.fillText("A+E", 300,150);
-			context.restore();	
-            */			
-
-			               
+            context.fillRect(0, 0, 200, 200);
+            context.restore();	
+			
+            //setup to draw entites             
             context.strokeStyle = "#EEEEEE";
             context.fillStyle = "#F3F1E5";
             context.shadowOffsetX = 0;
@@ -93,12 +93,16 @@
             context.shadowBlur = 15;
             context.shadowColor = "#BBBBBB";
             
-           
-			
+           			
             for(enty in entities){
                
-              // if(entities[enty].position.x)
-                entities[enty].draw(cam);         
+             // if(entities[enty].position.x )
+                entities[enty].draw(cam);  
+                
+                for( e in entities){
+                    if(entities[enty] != entities[e])
+                    entities[enty].checkCollision(entities[e]);
+                }       
             }
                 
          			
@@ -115,7 +119,7 @@
                   person = entities[enty];
             }
 
-            var movementAmount = 5;
+            var movementAmount = 8;
             if (!e) 
                 var e = window.event;
 				
@@ -142,26 +146,20 @@
             
             if (code == 97) {
                 person.position.x -= movementAmount;
-              
-
                 level.cam.right();
             }
-          
-
+        
              socket.emit('updatePerson',person);  
         }
 
         </script>
         <style>
             * { margin:0; padding:0; } /* to remove the top and left whitespace */
-
             html, body { width:100%; height:100%; } /* just to be sure these are full screen*/
-
             canvas { display:block; } /* To remove the scrollbars */
         </style>
     </head>
     <body onload="init()">
-        <canvas id="canvas" style="border:#eee 1px solid; width:100%;height:100%;z-index:1">
-        </canvas>
+        <canvas id="canvas" style="width:100%;height:100%;"></canvas>
     </body>
 </html>
