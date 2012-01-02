@@ -1,31 +1,4 @@
-//Allows for the copying of Object types into their proper types, used for copy constructer
-//for objects that are sent over the network. I have intergrated this function, into
-// the constructor of the Person object so it acts like C-style copy construction
-// WARNING: This creates a deep copy, so reference are not preserved
-function copy(newObject, oldObject) {
-		
-	for( member in oldObject )
-	{
-		// if the member is itself an object, then we most also call copy on that
-		if( typeof(oldObject[member]) == "object" )
-		{
-				newObject[member] = copy(newObject[member],oldObject[member])
-		}else{
-			// if its a primative member just assign it
-			newObject[member] = oldObject[member];
-		}			
-	}
-
-	return newObject;
-};
-
-
-//Gets a random number between the two numbers.
-//Another one of my language muating methods, to make it more like PHP in this case
-function rand(from, to){
-       return Math.floor(Math.random() * (to - from + 1) + from);
-}
-
+var std = {}
 
 //Multi Key press solution
 
@@ -39,13 +12,41 @@ $(document).keyup(function (e) {
     delete keys[e.which];
 });
 
-function isKeyDown(keyCode){
+std.isKeyDown = function (keyCode){
 	for( key in keys ){
 		if(key == keyCode)
 		  return true;  
 	}
 
 	return false;
+}
+
+//Allows for the copying of Object types into their proper types, used for copy constructer
+//for objects that are sent over the network. I have intergrated this function, into
+// the constructor of the Person object so it acts like C-style copy construction
+// WARNING: This creates a deep copy, so reference are not preserved
+std.copy = function(newObject, oldObject) {
+		
+	for( member in oldObject )
+	{
+		// if the member is itself an object, then we most also call copy on that
+		if( typeof(oldObject[member]) == "object" )
+		{
+				newObject[member] = std.copy(newObject[member],oldObject[member])
+		}else{
+			// if its a primative member just assign it
+			newObject[member] = oldObject[member];
+		}			
+	}
+
+	return newObject;
+};
+
+
+//Gets a random number between the two numbers.
+//Another one of my language muating methods, to make it more like PHP in this case
+std.rand = function(from, to){
+       return Math.floor(Math.random() * (to - from + 1) + from);
 }
 
 

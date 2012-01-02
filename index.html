@@ -6,7 +6,7 @@
      <script type="application/javascript" src="classes.js"></script>
      <script type="application/javascript" src="camera.js"></script>
      <script type="application/javascript" src="level.js"></script>
-     <script src="http://127.0.0.1:4000/socket.io/socket.io.js"></script>
+     <script src="http://107.21.108.104:4000/socket.io/socket.io.js"></script>
      <script type="application/javascript">
      //107.21.108.104
 
@@ -23,9 +23,9 @@
                   };
         })();
 
-        var socket = io.connect('http://127.0.0.1:4000');
+        var socket = io.connect('http://107.21.108.104:4000');
         var graphics = new Graphics();        
-        var personId = rand(10,1000);
+        var personId = std.rand(10,1000);
         var cam = new Camera(new Vector2D(3,3));
         var level;
         var entities = [];
@@ -33,7 +33,7 @@
         function init(){
 
             person = new Person({   
-                position: new Vector2D(rand(100,600),rand(100,310)), 
+                position: new Vector2D(std.rand(100,600),std.rand(100,310)), 
                 radius:10, 
                 color: new Color(238,233,233,1), 
                 infectionLvl:5, 
@@ -124,25 +124,25 @@
 
             var movementAmount = 9;
 
-            if(isKeyDown(87)){
+            if(std.isKeyDown(87)){
                 person.acceleration.y = -movementAmount;
                 level.cam.up();
                 socket.emit('updatePerson',person);
             }
 
-            if (isKeyDown(83)) {
+            if (std.isKeyDown(83)) {
                 person.acceleration.y = movementAmount;
                 level.cam.down();
                 socket.emit('updatePerson',person);
             }
 
-            if (isKeyDown(68)) {
+            if (std.isKeyDown(68)) {
                 person.acceleration.x = movementAmount;
                 level.cam.left();
                 socket.emit('updatePerson',person);
             }
 
-            if (isKeyDown(65)) {
+            if (std.isKeyDown(65)) {
                 person.acceleration.x = -movementAmount;
                 level.cam.right();
                 socket.emit('updatePerson',person);

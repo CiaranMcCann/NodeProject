@@ -11,7 +11,7 @@
 			this.ip = undefined;
 
 			//makes this constructor function as a normal constructor and a copy constructor
-			copy(this,data);
+			std.copy(this,data);
 			//copy(new Person(),person);	
 	}
 
