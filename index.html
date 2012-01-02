@@ -6,16 +6,29 @@
      <script type="application/javascript" src="classes.js"></script>
      <script type="application/javascript" src="camera.js"></script>
      <script type="application/javascript" src="level.js"></script>
-     <script src="http://107.21.108.104:4000/socket.io/socket.io.js"></script>
+     <script src="http://127.0.0.1:4000/socket.io/socket.io.js"></script>
      <script type="application/javascript">
      //107.21.108.104
 
-        var socket = io.connect('http://107.21.108.104:4000');
+
+        // requestAnim shim layer by Paul Irish
+        window.requestAnimFrame = (function(){
+          return  window.requestAnimationFrame       || 
+                  window.webkitRequestAnimationFrame || 
+                  window.mozRequestAnimationFrame    || 
+                  window.oRequestAnimationFrame      || 
+                  window.msRequestAnimationFrame     || 
+                  function(/* function */ callback, /* DOMElement */ element){
+                    window.setTimeout(callback, 1000 / 60);
+                  };
+        })();
+
+        var socket = io.connect('http://127.0.0.1:4000');
         var graphics = new Graphics();        
         var personId = rand(10,1000);
         var cam = new Camera(new Vector2D(3,3));
         var level;
-        var entities = [] 
+        var entities = [];
                         
         function init(){
 
@@ -69,48 +82,38 @@
             canvas.height = window.innerHeight;               
             level = new level(cam);
                     
-            document.onkeypress = keyPress;
-    		setInterval("mainLoop()",24);      
+    		mainLoop();  
+            
+            context.strokeStyle = "#BBBBBB";
+            context.fillStyle = "#F3F1E5";
+            context.shadowColor = "#BBBBBB";   
         }
                 
                            
         function mainLoop(){
 
+           // var startLoop = new Date().getTime();
+
+            requestAnimFrame( mainLoop );
             graphics.incermentTime();
 
-            //clear the screen
-			context.save();
-			context.scale(10,10);
             context.fillStyle = "#E9EDE8";
-            context.fillRect(0, 0, 200, 200);
-            context.restore();	
+            context.fillRect(0, 0, canvas.width, canvas.height);	
 			
-            //setup to draw entites             
-            context.strokeStyle = "#EEEEEE";
-            context.fillStyle = "#F3F1E5";
-            context.shadowOffsetX = 0;
-            context.shadowOffsetY = 0;
-            context.shadowBlur = 15;
-            context.shadowColor = "#BBBBBB";
-            
-           			
+            //setup to draw entites             		
             for(enty in entities){
                
              // if(entities[enty].position.x )
-                entities[enty].draw(cam);  
+                entities[enty].update(0.24);
+                entities[enty].draw(cam);
+                
                 
                 for( e in entities){
                     if(entities[enty] != entities[e])
                     entities[enty].checkCollision(entities[e]);
                 }       
             }
-                
-         			
-            level.update();	            
-        }
-             
-                
-        function keyPress(){
+
 
             var person;
 
@@ -119,38 +122,38 @@
                   person = entities[enty];
             }
 
-            var movementAmount = 8;
-            if (!e) 
-                var e = window.event;
-				
-            if (e.keyCode) 
-                code = e.keyCode;
-            
-            
-            if (code == 119) {
-                person.position.y -= movementAmount;
+            var movementAmount = 9;
+
+            if(isKeyDown(87)){
+                person.acceleration.y = -movementAmount;
                 level.cam.up();
+                socket.emit('updatePerson',person);
             }
-            
-            if (code == 115) {
-                person.position.y += movementAmount;
+
+            if (isKeyDown(83)) {
+                person.acceleration.y = movementAmount;
                 level.cam.down();
+                socket.emit('updatePerson',person);
             }
-            
-            
-            if (code == 100) {
-                person.position.x += movementAmount;
-                  level.cam.left();
+
+            if (isKeyDown(68)) {
+                person.acceleration.x = movementAmount;
+                level.cam.left();
+                socket.emit('updatePerson',person);
             }
-            
-            
-            if (code == 97) {
-                person.position.x -= movementAmount;
+
+            if (isKeyDown(65)) {
+                person.acceleration.x = -movementAmount;
                 level.cam.right();
+                socket.emit('updatePerson',person);
             }
-        
-             socket.emit('updatePerson',person);  
+      			
+            level.update();	        
+            
+            // var endloop = new Date().getTime();    
+            // console.log( endloop - startLoop);
         }
+             
 
         </script>
         <style>

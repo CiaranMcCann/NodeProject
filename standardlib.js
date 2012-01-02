@@ -27,6 +27,28 @@ function rand(from, to){
 }
 
 
+//Multi Key press solution
+
+var keys = {};
+
+$(document).keydown(function (e) {
+    keys[e.which] = true;
+});
+
+$(document).keyup(function (e) {
+    delete keys[e.which];
+});
+
+function isKeyDown(keyCode){
+	for( key in keys ){
+		if(key == keyCode)
+		  return true;  
+	}
+
+	return false;
+}
+
+
 //I count this as part of my standard lib and functions becase there isn't a project
 // I don't use it in
 function Vector2D(x,y)
@@ -38,4 +60,15 @@ function Vector2D(x,y)
 	{
 		return Math.sqrt((this.x*this.x)+(this.y*this.y));
 	}
+
+	Vector2D.prototype.add = function(v)
+	{
+		return new Vector2D(this.x + v.x , this.y + v.y);
+	}
+
+	Vector2D.prototype.mul = function(s)
+	{
+		return new Vector2D(this.x*s , this.y*s);
+	}
+
 }

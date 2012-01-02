@@ -2,7 +2,9 @@
 	{			
 			this.color = new Color(); // color , green, red etc
 			this.graphics = new Graphics();
-			this.position = new Vector2D();
+			this.position = new Vector2D(0,0);
+			this.acceleration = new Vector2D(0,0);
+			this.velocity = new Vector2D(0,0);
 			this.radius = undefined;	
 			this.infectionLvl = undefined;
 			this.sig = undefined;
@@ -18,14 +20,26 @@
 	{
 		if( this.color.r != 225)
 		{
-		this.color.r++;
-		this.color.b--;
-		this.color.g--;
-        
-		
-		this.infectionLvl += 0.2;
+			this.color.r++;
+			this.color.b--;
+			this.color.g--;
+	        		
+			this.infectionLvl += 0.2;
 		}
-	}	
+	}
+	
+	Person.prototype.update = function(dt) {
+		
+		this.acceleration = this.acceleration.add(this.velocity.mul(-0.4));
+		// positon += velocity*dt + 0.5 * a * (t*t);
+		this.position = this.position.add(  this.velocity.mul(dt).add( this.acceleration.mul(0.5*(dt*dt)) )   );
+
+		// velocity += a * dt;
+		this.velocity = this.velocity.add(this.acceleration.mul(dt));
+
+		this.acceleration.x = 0;
+		this.acceleration.y = 0;
+	};	
 	
 	Person.prototype.heal =  function()
 	{
@@ -96,40 +110,33 @@ function Graphics()
 			
 			Graphics.prototype.animatePulse = function(x, y,radius, infectionLvl, color)
             {
-					if(infectionLvl < 0 )
-				 infectionLvl = infectionLvl*-1;
+				if(infectionLvl < 0 )
+					infectionLvl = infectionLvl*-1;
 				
 				gap = (infectionLvl/4);
 				maxR = infectionLvl;
 											
-				context.save();
-				context.shadowOffsetX = 0;
-                context.shadowOffsetY = 0;
-                context.shadowBlur = 0;
-        				
+				context.save();       				
 			
 					for(i = 0; i <= (maxR/gap); i++)
-					{
-						
+					{						
 						context.strokeStyle = "rgba("+color.r+","+color.g+","+color.b+","+ 1+")";
 						context.lineWidth = ((maxR/gap) - i)/(gap*0.8);
 						context.beginPath();
 						context.arc(x, y, ((i*gap)/2)+(this.time/2), 0, Math.PI * 2, true);
 						context.closePath();
-						context.stroke();
-							
+						context.stroke();							
 						
 					}
 
 					 if(this.time >= maxR)
 						this.time = 1;
-				
-				
+								
 					context.restore();
 			}
 			
-			
-			 Graphics.prototype.drawWall = function(x,y,w,h){
+			//drawn offline so the context settings don't mattar
+			Graphics.prototype.drawWall = function(x,y,w,h){
                 context.strokeStyle = "#EEEEEE";
                 context.fillStyle = "#F3F1E5";
                 context.shadowOffsetX = 0;
