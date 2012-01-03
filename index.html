@@ -30,7 +30,9 @@
         var graphics = new Graphics();        
         var personId = std.rand(10,1000);
         var level;
+        var person;
         var entities = [];
+        var welcomeMessage = "Hi, welcome to my protype expierments with Node.js and soon to be game.\n\n Maybe you might like to enter a nickname. W S D A are the controls. Nothing much to do but walk around atm"
                         
         function init(){
 
@@ -44,6 +46,8 @@
                 graphics: graphics, 
                 sig:  personId
             });
+
+           
             
             socket.emit('onConnectionCreateNewEnitiy', person);  
             
@@ -90,8 +94,25 @@
                 canvas.height = window.innerHeight;  
             });
             
+            //Centers any text
+            context.textAlign = "center";
+
+
+            //handle the chat input box
+            $(document).ready(function () {
+               $('input').keypress(function(e){
+                 if(e.which == 13){
+                   
+                   $('input').blur();
+                   person.setCurrentMessage($('input').val());
+                   socket.emit('updatePerson',person);
+                 }
+               });
+            });
+            
                          
-            level = new level();                             
+            level = new level();  
+                          
     		    mainLoop();  
         
         }
@@ -104,10 +125,9 @@
             requestAnimFrame( mainLoop );
             graphics.incermentTime();
 
+            //clear screen
            	context.fillStyle = "#E9EDE8";
             context.fillRect(0, 0, canvas.width, canvas.height); 
-
-            var person;
 
             //setup to draw entites             		
             for(enty in entities){
@@ -128,6 +148,15 @@
             person.keyEvents(level.cam, socket);
             level.update();	 
             Network.update();
+
+
+          if(person.name == undefined){
+
+            var name=prompt(welcomeMessage,"");         
+            person.name = name == null ? "John Doe" : name;
+          
+            socket.emit('updatePerson',person);
+          }
                 
             
             // var endloop = new Date().getTime();    
@@ -140,9 +169,31 @@
             * { margin:0; padding:0; } /* to remove the top and left whitespace */
             html, body { width:100%; height:100%; } /* just to be sure these are full screen*/
             canvas { display:block; } /* To remove the scrollbars */
+            
+            .bubble {
+             width:400px;
+            color:#efefef;
+            }
+            .bubble .content {
+              padding:10px;
+
+              background:#393939;
+              text-align:center;
+            }
+
+              
         </style>
     </head>
     <body onload="init()">
+    <div class="bubble" style="width:300px; height:30px;z-index:30; position:absolute; top: 0px ; left: 0px; ">
+    
+  
+  <div class="content">
+    <p><input type="text" placeholder="Chat with other players?" style="width:100%"></p>
+  </div>
+</div>
+           
         <canvas id="canvas" ></canvas>
+ 
     </body>
 </html>

@@ -8,7 +8,7 @@
 			this.radius = undefined;	
 			this.infectionLvl = undefined;
 			this.sig = undefined;
-			this.name = "John Dole";
+			this.name = undefined;
 			this.ip = undefined;
 			this.msg = undefined;
 			this.timeLeftToDisplayMsg = 0;
@@ -41,7 +41,7 @@
 			if(this.name == undefined)
 				this.msg = this.ip;
 			else
-				this.msg = this.name + ' \n' + this.ip;
+				this.msg = this.name + '  ' + this.ip;
 		}
 		
 		this.acceleration = this.acceleration.add(this.velocity.mul(-0.4)); //firction added to player inital acc		
@@ -89,7 +89,7 @@
 	
 	Person.prototype.setCurrentMessage = function(msg) {
 		this.msg = msg;
-		this.timeLeftToDisplayMsg = 150;
+		this.timeLeftToDisplayMsg = 250;
 	};	
 	
 	Person.prototype.heal =  function()
@@ -104,9 +104,9 @@
 		this.graphics.drawPerson(this.position.x+cam.position.x,this.position.y+cam.position.y,this.radius, this.infectionLvl, this.color);
 						
 		context.save();
-		context.fillStyle = "rgba("+225+","+88+","+88+","+ 0.8+")";
-		context.font  = '11px helvetica';
-		context.fillText(this.msg, this.position.x+cam.position.x - this.radius*2,this.position.y+cam.position.y - this.radius*2);
+		context.fillStyle = "rgba("+225+","+58+","+88+","+ 0.9+")";
+		context.font  = '13px helvetica';
+		std.renderWrapText(context,this.msg, this.position.x+cam.position.x,this.position.y+cam.position.y-this.radius-2, 100, -12);
 		context.restore();	
             	
 	}
@@ -135,8 +135,6 @@
                 this.acceleration.y = -movementAmount;    			
                 cam.up(this);
                 needsUpdate = true;
-
-                this.setCurrentMessage("dfdfdsf");
                
             }
 
