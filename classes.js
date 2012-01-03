@@ -10,6 +10,9 @@
 			this.sig = undefined;
 			this.ip = undefined;
 
+			this.directionX = 0;
+			this.directionY = 0;
+
 			//makes this constructor function as a normal constructor and a copy constructor
 			std.copy(this,data);
 			//copy(new Person(),person);	
@@ -28,14 +31,35 @@
 		}
 	}
 	
-	Person.prototype.update = function(dt) {
+	Person.prototype.update = function(dt, level) {
 		
-		this.acceleration = this.acceleration.add(this.velocity.mul(-0.4));
+		this.acceleration = this.acceleration.add(this.velocity.mul(-0.4)); //firction added to player inital acc
+		
 		// positon += velocity*dt + 0.5 * a * (t*t);
-		this.position = this.position.add(  this.velocity.mul(dt).add( this.acceleration.mul(0.5*(dt*dt)) )   );
 
-		// velocity += a * dt;
-		this.velocity = this.velocity.add(this.acceleration.mul(dt));
+		//if(this.acceleration.x != 0 && this.acceleration.y != 0){
+		//	this.directionX =  this.acceleration.x >= 0 ? this.radius : this.radius*-2;
+		//	this.directionY =  this.acceleration.y >= 0 ? this.radius : this.radius*-2;
+		//}
+
+		var temppos = this.position.add(  this.velocity.mul(dt).add( this.acceleration.mul(0.5*(dt*dt)) )   );
+		var x = Math.floor( (temppos.x+this.radius) /level.tileSize);
+        var y = Math.floor( (temppos.y+this.radius) /level.tileSize);
+
+        var x2 = Math.floor( (temppos.x-this.radius) /level.tileSize);
+        var y2 = Math.floor( (temppos.y-this.radius) /level.tileSize);
+
+        if(level.map[y][x] != 1 && level.map[y2][x2] != 1){
+        	this.position.x = temppos.x
+        	this.position.y = temppos.y
+        	this.velocity = this.velocity.add(this.acceleration.mul(dt));// velocity += a * dt;
+
+        }else{
+
+        	//bounce slightly away from the wall, so it doesnt get stuck
+        	this.velocity.x *= -0.1;
+        	this.velocity.y *= -0.1;
+        }
 
 		this.acceleration.x = 0;
 		this.acceleration.y = 0;

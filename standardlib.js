@@ -72,4 +72,9 @@ function Vector2D(x,y)
 		return new Vector2D(this.x*s , this.y*s);
 	}
 
+	Vector2D.prototype.normalize = function() {
+		var l = this.lenght();
+		return new Vector2D(this.x/l,this.y/l);
+	};
+
 }
