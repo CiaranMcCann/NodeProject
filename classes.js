@@ -33,14 +33,8 @@
 	
 	Person.prototype.update = function(dt, level) {
 		
-		this.acceleration = this.acceleration.add(this.velocity.mul(-0.4)); //firction added to player inital acc
-		
+		this.acceleration = this.acceleration.add(this.velocity.mul(-0.4)); //firction added to player inital acc		
 		// positon += velocity*dt + 0.5 * a * (t*t);
-
-		//if(this.acceleration.x != 0 && this.acceleration.y != 0){
-		//	this.directionX =  this.acceleration.x >= 0 ? this.radius : this.radius*-2;
-		//	this.directionY =  this.acceleration.y >= 0 ? this.radius : this.radius*-2;
-		//}
 
 		var temppos = this.position.add(  this.velocity.mul(dt).add( this.acceleration.mul(0.5*(dt*dt)) )   );
 		var x = Math.floor( (temppos.x+this.radius) /level.tileSize);
@@ -63,6 +57,9 @@
 
 		this.acceleration.x = 0;
 		this.acceleration.y = 0;
+
+
+		
 	};	
 	
 	Person.prototype.heal =  function()
@@ -98,6 +95,42 @@
 			
 		}
 	}
+
+	Person.prototype.keyEvents = function(cam){
+		
+		var movementAmount = 9;
+
+            if(std.isKeyDown(87)){
+                this.acceleration.y = -movementAmount;
+     			
+                cam.up(this);
+
+                socket.emit('updatePerson',person);
+            }
+
+            if (std.isKeyDown(83)) {
+                this.acceleration.y = movementAmount;
+               
+                cam.down(this);
+                socket.emit('updatePerson',person);
+            }
+
+            if (std.isKeyDown(68)) {
+                this.acceleration.x = movementAmount;
+   			    cam.right(this);
+
+                socket.emit('updatePerson',person);
+            }
+
+            if (std.isKeyDown(65)) {
+                this.acceleration.x = -movementAmount;
+
+                
+                	cam.left(this);
+
+                socket.emit('updatePerson',person);
+            }	
+	};
 
 
 function Color(r,g,b,a) {

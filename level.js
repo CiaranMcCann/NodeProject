@@ -1,8 +1,7 @@
 
-function level(cam)
+function level()
 {
-	this.cam = cam;
-
+	 
 	level.prototype.update = function() {
 		
 		this.img.style.cssText = "position:absolute;left:" + this.cam.position.x + "px;top: " + this.cam.position.y + "px; "
@@ -14,51 +13,55 @@ function level(cam)
 	
 	this.map = [
 
-		[w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w],
-		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,w,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,w,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,w,w,w,w,w,w,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,o,o,o,w,o,o,w,w,w,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,w,w,w,w,o,o,w,w,w,w,o,o,w,w,w,w,o,o,w,w,w,w,w,w,w,w,w,w,w,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,w,w,w,o,o,w,w,w,w,o,o,w,w,w,w,w,w,w,w,w,w,w,w,w,w,o,o,o,w,w,w,o,o,w,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,w,w,w,w,w,w,w,w,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,o,o,o,w,w,w,w,o,o,w,w,w,w,w,o,o,w,o,o,o,w,w,w,w,w,w,w,w,w,w,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,w,o,o,w,w,w,w,o,o,w,w,w,w,w,o,o,w,o,o,o,w,w,w,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,w,w,w,w,w,w,w,w,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o],
-		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,w,w,w,w,w,w,o,o,w,w,w,w,w,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o],
-		[w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,w,w,w,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,w,w,w,w,w,w,o,o,w,w,w,w,w,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[w,o,o,o,o,o,o,o,o,w,w,w,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
-		[o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o],
+		[w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w],
+		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,w,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,w,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,w,w,w,w,w,w,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,o,o,o,w,o,o,w,w,w,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,w,w,w,w,o,o,w,w,w,w,o,o,w,w,w,w,o,o,w,w,w,w,w,w,w,w,w,w,w,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,w,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,w,w,w,o,o,w,w,w,w,o,o,w,w,w,w,w,w,w,w,w,w,w,w,w,w,o,o,o,w,w,w,o,o,w,w,o,o,o,o,o,o,o,o,o,o,o,w,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,w,w,w,w,w,w,w,w,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,o,o,o,w,w,w,w,o,o,w,w,w,w,w,o,o,w,o,o,o,w,w,w,w,w,w,w,w,w,w,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,w,o,o,w,w,w,w,o,o,w,w,w,w,w,o,o,w,o,o,o,w,w,w,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,w,w,w,w,w,w,w,w,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,w,w,w,w,w,w,o,o,w,w,w,w,w,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,w,o,o,o,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,w,w,w,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,w,w,w,w,w,w,o,o,w,w,w,w,w,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,w,o,o,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[w,o,o,o,o,o,o,o,o,w,w,w,w,o,o,o,o,o,o,w,o,o,o,o,o,w,o,o,o,w,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,w],
+		[o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o],
+		[w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w],
+		[o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o],
+
+
 
 	]
 
@@ -69,31 +72,13 @@ function level(cam)
 	this.canvas.style.cssText =	"position:absolute;left:3px;top:3px; "
 	this.canvas.width = this.width*this.tileSize;
     this.canvas.height = this.height*this.tileSize; 
+    this.cam = new Camera(new Vector2D(0,0),{h:this.height*this.tileSize,w:this.width*this.tileSize});
     //document.body.appendChild(this.canvas);
     this.img = new Image();
     this.img2 = new Image();
 
     	var ctx = this.canvas.getContext("2d");
 		console.log('Inital draw');
-
-		gap = 40;
-       //	ctx.beginPath()	
-    	//TODO fix this for better optimisation
-    	// canvas.getContext2d().setStrokeStyleDev(Color.RED);
-        for (x = 0; x < this.width; x++) {
-            ctx.moveTo(x*gap, 0);
-            ctx.lineTo(x*gap, this.height*gap);
-        }
-
-        for ( y = 0; y < this.height; y++) {
-            ctx.moveTo(0, y*gap);
-            ctx.lineTo(this.width*gap, y*gap);
-        }
-        	ctx.strokeStyle = "#F1F2F0";
-        	ctx.stroke();
-
-
-
 
 		ctx.strokeStyle = "#EEEEEE";
         ctx.fillStyle = "#FF0000";

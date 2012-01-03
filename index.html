@@ -27,7 +27,6 @@
         var socket = io.connect('http://127.0.0.1:4000');
         var graphics = new Graphics();        
         var personId = std.rand(10,1000);
-        var cam = new Camera(new Vector2D(3,3));
         var level;
         var entities = [];
                         
@@ -86,7 +85,7 @@
             });
             
                          
-            level = new level(cam);                   
+            level = new level();                   
     		mainLoop();  
             
             context.strokeStyle = "#BBBBBB";
@@ -112,7 +111,7 @@
                
              // if(entities[enty].position.x )
                 entities[enty].update(0.24,level);
-                entities[enty].draw(cam);
+                entities[enty].draw(level.cam);
 
                 if(entities[enty].sig ==  personId)
                   person = entities[enty];
@@ -123,33 +122,7 @@
                 }       
             }
 
-
-            var movementAmount = 9;
-
-            if(std.isKeyDown(87)){
-                person.acceleration.y = -movementAmount;
-                level.cam.up();
-                socket.emit('updatePerson',person);
-            }
-
-            if (std.isKeyDown(83)) {
-                person.acceleration.y = movementAmount;
-                level.cam.down();
-                socket.emit('updatePerson',person);
-            }
-
-            if (std.isKeyDown(68)) {
-                person.acceleration.x = movementAmount;
-                //level.cam.left();
-                socket.emit('updatePerson',person);
-            }
-
-            if (std.isKeyDown(65)) {
-                person.acceleration.x = -movementAmount;
-               // level.cam.right();
-                socket.emit('updatePerson',person);
-            }
-      			
+            person.keyEvents(level.cam);
             level.update();	        
             
             // var endloop = new Date().getTime();    
