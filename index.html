@@ -8,7 +8,7 @@
      <script type="application/javascript" src="camera.js"></script>
      <script type="application/javascript" src="door.js"></script>
      <script type="application/javascript" src="level.js"></script>
-     <script src="http://127.0.0.1:4000/socket.io/socket.io.js"></script>
+     <script src="http://107.21.108.104:4000/socket.io/socket.io.js"></script>
      <script type="application/javascript">
      //107.21.108.104
 
@@ -26,13 +26,14 @@
         })();
 
 
-        var socket = io.connect('http://127.0.0.1:4000');
+        var socket = io.connect('http://107.21.108.104:4000');
         var graphics = new Graphics();        
         var personId = std.rand(10,1000);
         var level;
         var person;
         var entities = [];
-        var welcomeMessage = "Hi, welcome to my protype expierments with Node.js and soon to be game.\n\n Maybe you might like to enter a nickname. W S D A are the controls. Nothing much to do but walk around atm"
+        var welcomeMessage = "Hi, welcome to my protype expierments with Node.js and soon to be game.\n\n 
+        Maybe you might like to enter a nickname. W S D A are the controls. Nothing much to do but walk around atm"
                         
         function init(){
 
@@ -46,9 +47,7 @@
                 graphics: graphics, 
                 sig:  personId
             });
-
-           
-            
+         
             socket.emit('onConnectionCreateNewEnitiy', person);  
             
             socket.on('addNewPersonToWorld', function(newPerson){
@@ -109,12 +108,10 @@
                  }
                });
             });
-            
-                         
+                                     
             level = new level();  
                           
-    		    mainLoop();  
-        
+    		    mainLoop();         
         }
                 
                            
@@ -185,10 +182,8 @@
         </style>
     </head>
     <body onload="init()">
-    <div class="bubble" style="width:300px; height:30px;z-index:30; position:absolute; top: 0px ; left: 0px; ">
-    
-  
-  <div class="content">
+    <div class="bubble" style="width:300px; height:30px;z-index:30; position:absolute; top: 0px ; left: 0px; "> 
+    <div class="content">
     <p><input type="text" placeholder="Chat with other players?" style="width:100%"></p>
   </div>
 </div>
