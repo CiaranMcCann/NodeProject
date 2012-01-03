@@ -55,6 +55,17 @@
         	this.velocity.y *= -0.1;
         }
 
+        //squire infront of player
+        if(level.map[y+1][x] instanceof Door)
+         	level.map[y+1][x].open();
+        
+      //  if(level.map[y][x-1] instanceof Door)
+         //	level.map[y][x-1].isOpening = true;
+        
+        //squirte behind player
+        if(level.map[y2][x2] instanceof Door)
+         	level.map[y2][x2].open();
+
 		this.acceleration.x = 0;
 		this.acceleration.y = 0;
 
