@@ -8,10 +8,10 @@
 			this.radius = undefined;	
 			this.infectionLvl = undefined;
 			this.sig = undefined;
+			this.name = "John Dole";
 			this.ip = undefined;
-
-			this.directionX = 0;
-			this.directionY = 0;
+			this.msg = undefined;
+			this.timeLeftToDisplayMsg = 0;
 
 			//makes this constructor function as a normal constructor and a copy constructor
 			std.copy(this,data);
@@ -32,6 +32,17 @@
 	}
 	
 	Person.prototype.update = function(dt, level) {
+
+		//decrement message display timer
+		this.timeLeftToDisplayMsg--;
+
+		if(this.timeLeftToDisplayMsg < 0){
+
+			if(this.name == undefined)
+				this.msg = this.ip;
+			else
+				this.msg = this.name + ' \n' + this.ip;
+		}
 		
 		this.acceleration = this.acceleration.add(this.velocity.mul(-0.4)); //firction added to player inital acc		
 		// positon += velocity*dt + 0.5 * a * (t*t);
@@ -55,22 +66,30 @@
         	this.velocity.y *= -0.1;
         }
 
-        //squire infront of player
+        
+        // Checks for the door collisons
+
         if(level.map[y+1][x] instanceof Door)
          	level.map[y+1][x].open();
-        
-      //  if(level.map[y][x-1] instanceof Door)
-         //	level.map[y][x-1].isOpening = true;
-        
-        //squirte behind player
-        if(level.map[y2][x2] instanceof Door)
-         	level.map[y2][x2].open();
+
+         if(level.map[y+2][x] instanceof Door)
+         	level.map[y+2][x].open();
+      
+        if(level.map[y-1][x] instanceof Door)
+         	level.map[y-1][x].open();
+
+        if(level.map[y-2][x] instanceof Door)
+         	level.map[y-2][x].open();
+
+         
 
 		this.acceleration.x = 0;
-		this.acceleration.y = 0;
-
-
-		
+		this.acceleration.y = 0;	
+	};
+	
+	Person.prototype.setCurrentMessage = function(msg) {
+		this.msg = msg;
+		this.timeLeftToDisplayMsg = 150;
 	};	
 	
 	Person.prototype.heal =  function()
@@ -85,9 +104,9 @@
 		this.graphics.drawPerson(this.position.x+cam.position.x,this.position.y+cam.position.y,this.radius, this.infectionLvl, this.color);
 						
 		context.save();
-		context.fillStyle = "rgba("+88+","+88+","+88+","+ 0.5+")";
-		context.font  = '10px helvetica';
-		context.fillText(this.ip, this.position.x+cam.position.x - this.radius*2,this.position.y+cam.position.y - this.radius*2);
+		context.fillStyle = "rgba("+225+","+88+","+88+","+ 0.8+")";
+		context.font  = '11px helvetica';
+		context.fillText(this.msg, this.position.x+cam.position.x - this.radius*2,this.position.y+cam.position.y - this.radius*2);
 		context.restore();	
             	
 	}
@@ -116,6 +135,8 @@
                 this.acceleration.y = -movementAmount;    			
                 cam.up(this);
                 needsUpdate = true;
+
+                this.setCurrentMessage("dfdfdsf");
                
             }
 
@@ -138,7 +159,7 @@
             }
             
             if(needsUpdate && Network.okToSendMessage('updatePerson'))
-             socket.emit('updatePerson',this);  	
+              socket.emit('updatePerson',this);  	
 	};
 
 

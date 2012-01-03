@@ -8,7 +8,7 @@
      <script type="application/javascript" src="camera.js"></script>
      <script type="application/javascript" src="door.js"></script>
      <script type="application/javascript" src="level.js"></script>
-     <script src="http://107.21.108.104:4000/socket.io/socket.io.js"></script>
+     <script src="http://127.0.0.1:4000/socket.io/socket.io.js"></script>
      <script type="application/javascript">
      //107.21.108.104
 
@@ -26,7 +26,7 @@
         })();
 
 
-        var socket = io.connect('http://107.21.108.104:4000');
+        var socket = io.connect('http://127.0.0.1:4000');
         var graphics = new Graphics();        
         var personId = std.rand(10,1000);
         var level;
@@ -34,7 +34,7 @@
                         
         function init(){
 
-            Network.setEventFrequency("updatePerson", 15);
+            Network.setEventFrequency("updatePerson", 3);
 
             person = new Person({   
                 position: new Vector2D(std.rand(100,600),std.rand(100,310)), 
@@ -113,7 +113,7 @@
             for(enty in entities){
                
              // if(entities[enty].position.x )
-              //  entities[enty].update(0.24,level);
+               entities[enty].update(0.24,level);
                 entities[enty].draw(level.cam);
 
                 if(entities[enty].sig ==  personId)
@@ -124,7 +124,7 @@
                     entities[enty].checkCollision(entities[e]);
                 }       
             }
-            person.update(0.25,level);
+           // person.update(0.25,level);
             person.keyEvents(level.cam, socket);
             level.update();	 
             Network.update();

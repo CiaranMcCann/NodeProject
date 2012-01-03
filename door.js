@@ -5,9 +5,7 @@ function Door(x,y,tileSize,orientation,openDirection,partenerDoor){
 
 	this.width = tileSize;
 	this.height = tileSize/2;	
-	this.isOpening = true;
-	this.isClosing = false;
-	this.isClosed = true;
+	this.isOpening = false;
 	this.orientation = orientation;
 	this.openDirection = openDirection;
 	this.speed = 0.6;
@@ -32,8 +30,12 @@ function Door(x,y,tileSize,orientation,openDirection,partenerDoor){
 	};
 
 	Door.prototype.draw = function(cam) {
-		context.fillStyle = "#FF0000";             
+
+		context.fillStyle = "#BBBBBB";  
+
+		//context.lineWidth   = 0.5;           
         context.fillRect(this.pos.x+cam.position.x, this.pos.y+cam.position.y, this.width, this.height);
+        context.strokeRect(this.pos.x+cam.position.x, this.pos.y+cam.position.y, this.width, this.height);
 	};
 
 	Door.prototype.update = function(){
