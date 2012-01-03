@@ -11,6 +11,8 @@ function level()
 		for( door in this.doors )
 		{
 			this.doors[door].update();
+
+			//TODO - don't draw all the doors in the sence, maybe used the map array to direct index and draw only them
 			this.doors[door].draw(this.cam);
 		}
 	};
