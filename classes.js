@@ -96,40 +96,38 @@
 		}
 	}
 
-	Person.prototype.keyEvents = function(cam){
+	Person.prototype.keyEvents = function(cam, socket){
 		
 		var movementAmount = 9;
+		var needsUpdate = false;
 
             if(std.isKeyDown(87)){
-                this.acceleration.y = -movementAmount;
-     			
+                this.acceleration.y = -movementAmount;    			
                 cam.up(this);
-
-                socket.emit('updatePerson',person);
+                needsUpdate = true;
+               
             }
 
             if (std.isKeyDown(83)) {
-                this.acceleration.y = movementAmount;
-               
+                this.acceleration.y = movementAmount;               
                 cam.down(this);
-                socket.emit('updatePerson',person);
+                needsUpdate = true;
             }
 
             if (std.isKeyDown(68)) {
                 this.acceleration.x = movementAmount;
    			    cam.right(this);
-
-                socket.emit('updatePerson',person);
+   			    needsUpdate = true;
             }
 
             if (std.isKeyDown(65)) {
-                this.acceleration.x = -movementAmount;
-
-                
-                	cam.left(this);
-
-                socket.emit('updatePerson',person);
-            }	
+                this.acceleration.x = -movementAmount;              
+                cam.left(this);
+                needsUpdate = true;
+            }
+            
+            if(needsUpdate)
+             socket.emit('updatePerson',this);  	
 	};
 
 
