@@ -151,6 +151,9 @@ function Graphics()
 	
 			Graphics.prototype.drawPerson =function(x, y,radius, infectionLvl, color)
             {
+ 
+            	//context.fillStyle = "#E9EDE8";
+            	//context.fillRect(x - radius*3, y - radius*4, radius*6, radius*6);  dirty rects
 				context.save();
 				context.fillStyle = "rgba("+color.r+","+color.g+","+color.b+","+ 0.8+")";
 				this.animatePulse(x,y,radius, infectionLvl, color);
