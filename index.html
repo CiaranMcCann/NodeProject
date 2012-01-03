@@ -3,11 +3,12 @@
     <meta name = "viewport" content = "width = device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;">
      <script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" ></script>
      <script type="application/javascript" src="standardlib.js"></script>
+     <script type="application/javascript" src="NetworkMonitor.js"></script>
      <script type="application/javascript" src="classes.js"></script>
      <script type="application/javascript" src="camera.js"></script>
      <script type="application/javascript" src="door.js"></script>
      <script type="application/javascript" src="level.js"></script>
-     <script src="http://107.21.108.104:4000/socket.io/socket.io.js"></script>
+     <script src="http://127.0.0.1:4000/socket.io/socket.io.js"></script>
      <script type="application/javascript">
      //107.21.108.104
 
@@ -25,13 +26,15 @@
         })();
 
 
-        var socket = io.connect('http://107.21.108.104:4000');
+        var socket = io.connect('http://127.0.0.1:4000');
         var graphics = new Graphics();        
         var personId = std.rand(10,1000);
         var level;
         var entities = [];
                         
         function init(){
+
+            Network.setEventFrequency("updatePerson", 15);
 
             person = new Person({   
                 position: new Vector2D(std.rand(100,600),std.rand(100,310)), 
@@ -56,6 +59,8 @@
             });
 
             socket.on('updatePersonInWorld', function(person){
+                
+                //TODO - direct indexing
                 for( enty in entities){
                     if(entities[enty].sig == person.sig)
                     {
@@ -87,7 +92,7 @@
             
                          
             level = new level();                             
-    		mainLoop();  
+    		    mainLoop();  
         
         }
                 
@@ -122,6 +127,7 @@
             person.update(0.25,level);
             person.keyEvents(level.cam, socket);
             level.update();	 
+            Network.update();
                 
             
             // var endloop = new Date().getTime();    

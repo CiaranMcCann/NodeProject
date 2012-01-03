@@ -137,7 +137,7 @@
                 needsUpdate = true;
             }
             
-            if(needsUpdate)
+            if(needsUpdate && Network.okToSendMessage('updatePerson'))
              socket.emit('updatePerson',this);  	
 	};
 

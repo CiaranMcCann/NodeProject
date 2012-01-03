@@ -1,26 +1,28 @@
 
 <script>
 
-function MySecoundType(){
-  this.y = 8;
+function A(){
+    this.value = 100;
+}; 
+A.prototype.test = function() {self.value}
+
+function B(){
+    B.prototype = A;
 }
 
-function MyType(){
-  this.x = 5;
-  this.h = new MySecoundType();
-}
+B.prototype = new A();
 
-MyType.prototype.mul = function() {
-  this.x = this.x * 2;
-};
+
+
 
 function init(){
 
 
-var g = new MyType();
-g.mul();
 
-var p = new MyType(g);
+var b = new B();
+
+alert(b.test());
+
 
 
 
