@@ -55,7 +55,8 @@
             });
 
             socket.on('updatePersonInWorld', function(person){
-                      entities[person.sig] = new Person(person);
+                     // entities[person.sig] = new Person(person);
+                     entities[person.sig].velocity = std.copy(new Vector2D(0,0),person.velocity);
             });
 
             socket.on('onDisconnectRemovePlayer', function(sig){               
@@ -104,13 +105,13 @@
           Graphics.ctx.fillStyle = "#E9EDE8";
           Graphics.ctx.fillRect(0, 0, Graphics.canvas.width, Graphics.canvas.height); 
            //Graphics.canvas.width =  Graphics.canvas.width; 
-           person.update(0.24,level);
+          // person.update(0.24,level);
             //setup to draw entites             		
             for(enty in entities){
               
               if(entities[enty] instanceof Person) { 
                // if(entities[enty].position.x )
-                  //entities[enty].update(0.24,level);
+                  entities[enty].update(0.24,level);
                   entities[enty].draw(level.cam);
                                  
                   for( e in entities){
