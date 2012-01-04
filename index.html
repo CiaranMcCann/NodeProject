@@ -1,14 +1,15 @@
 <html>
     <head>
     <meta name = "viewport" content = "width = device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;">
+     <link rel="stylesheet" href="style.css" />
      <script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" ></script>
-     <script type="application/javascript" src="standardlib.js"></script>
+     <script type="application/javascript" src="StandardLib.js"></script>
      <script type="application/javascript" src="NetworkMonitor.js"></script>
      <script type="application/javascript" src="Graphics.js"></script>
      <script type="application/javascript" src="Person.js"></script>
-     <script type="application/javascript" src="camera.js"></script>
-     <script type="application/javascript" src="door.js"></script>
-     <script type="application/javascript" src="level.js"></script>
+     <script type="application/javascript" src="Camera.js"></script>
+     <script type="application/javascript" src="Door.js"></script>
+     <script type="application/javascript" src="Level.js"></script>
      <script src="http://127.0.0.1:4000/socket.io/socket.io.js"></script>
      <script type="application/javascript">
      //107.21.108.104
@@ -32,8 +33,7 @@
                 infectionLvl:5, 
                 sig:  personId
             });
-
-           
+       
             
             socket.emit('onConnectionCreateNewEnitiy', person);  
             
@@ -70,14 +70,10 @@
 
                    
             Graphics.canvas = document.getElementById("canvas");
-            Graphics.ctx = canvas.getContext("2d"); 
+            Graphics.ctx = Graphics.canvas.getContext("2d"); 
             Graphics.canvas.width = window.innerWidth;
             Graphics.canvas.height = window.innerHeight;  
-            $(window).resize(function() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;  
-            });
-            
+
             //Centers any text
             Graphics.ctx.textAlign = "center";
 
@@ -95,23 +91,21 @@
             });
             
                          
-            level = new level();  
-                          
-    		    mainLoop();  
-        
+            level = new level();                           
+    		    mainLoop();         
         }
                 
                            
         function mainLoop(){
 
-           // var startLoop = new Date().getTime();
+          // var startLoop = new Date().getTime();
 
             requestAnimFrame( mainLoop );
             Graphics.incermentTime();
 
             //clear screen
-           Graphics.ctx.fillStyle = "#E9EDE8";
-            Graphics.ctx.fillRect(0, 0, canvas.width, canvas.height); 
+          //  Graphics.ctx.fillStyle = "#E9EDE8";
+          //  Graphics.ctx.fillRect(0, 0, Graphics.canvas.width, Graphics.canvas.height); 
 
             //setup to draw entites             		
             for(enty in entities){
@@ -128,7 +122,7 @@
                     entities[enty].checkCollision(entities[e]);
                 }       
             }
-           // person.update(0.25,level);
+
             person.keyEvents(level.cam, socket);
             level.update();	 
             Network.update();
@@ -149,35 +143,15 @@
              
 
         </script>
-        <style>
-            * { margin:0; padding:0; } /* to remove the top and left whitespace */
-            html, body { width:100%; height:100%; } /* just to be sure these are full screen*/
-            canvas { display:block; } /* To remove the scrollbars */
-            
-            .bubble {
-             width:400px;
-            color:#efefef;
-            }
-            .bubble .content {
-              padding:10px;
-
-              background:#393939;
-              text-align:center;
-            }
-
-              
-        </style>
     </head>
     <body onload="init()">
-    <div class="bubble" style="width:300px; height:30px;z-index:30; position:absolute; top: 0px ; left: 0px; ">
-    
-  
-  <div class="content">
-    <p><input type="text" placeholder="Chat with other players?" style="width:100%"></p>
-  </div>
-</div>
-           
-        <canvas id="canvas" ></canvas>
+
+      <div class="bubble" style="width:300px; height:30px;z-index:30; position:absolute; top: 0px ; left: 0px; ">
+          <div class="content">
+            <p><input type="text" placeholder="Chat with other players?" style="width:100%"></p>
+        </div>
+      </div>           
+      <canvas id="canvas" ></canvas>
  
     </body>
 </html>

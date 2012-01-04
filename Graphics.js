@@ -25,6 +25,13 @@ Graphics.time = 0;
                   };
  })();
 
+//On window resize
+//TODO - resize event for the overlay div's
+$(window).resize(function() {
+               Graphics.canvas.width = window.innerWidth;
+               Graphics.canvas.height = window.innerHeight;  
+});
+
 
 Graphics.incermentTime = function(){
 	Graphics.time++;
