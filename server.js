@@ -29,15 +29,14 @@
 
              socket.broadcast.emit('updatePersonInWorld', person);  
              entities[playersig] = person
-              
-             
+                        
         });
 
     });
 
      socket.on('disconnect', function (){
     	socket.get('sig', function (err, playerSig) {
-	      		   entities[playerSig] = null 
+	      		   entities[playerSig] = 0;
 	      		   socket.broadcast.emit('onDisconnectRemovePlayer', playerSig);	      		  
 	      		});
   	 });
