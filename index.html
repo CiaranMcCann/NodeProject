@@ -10,13 +10,13 @@
      <script type="application/javascript" src="Camera.js"></script>
      <script type="application/javascript" src="Door.js"></script>
      <script type="application/javascript" src="Level.js"></script>
-     <script src="http://127.0.0.1:4000/socket.io/socket.io.js"></script>
+     <script src="http://107.21.108.104:4000/socket.io/socket.io.js"></script>
      <script type="application/javascript">
      //107.21.108.104
 
 
-        var socket = io.connect('http://127.0.0.1:4000');       
-        var personId = std.rand(10,1000);
+        var socket = io.connect('http://107.21.108.104:4000');       
+        var personId = -1;
         var level;
         var person;
         var entities = [];
@@ -31,41 +31,35 @@
                 radius:10, 
                 color: new Color(238,233,233,1), 
                 infectionLvl:5, 
-                sig:  personId
-            });
-       
-            
+                sig:  -1
+            }); 
+
             socket.emit('onConnectionCreateNewEnitiy', person);  
-            
             socket.on('addNewPersonToWorld', function(newPerson){
                     entities.push(new Person(newPerson) ); 
             });           
-            socket.on('onConnectionGetEntites', function(ent){
+            socket.on('onConnectionGetEntites', function(data){
+                   personId = data.playerSig;
+                   console.log("sig set to " + personId);
+                    
+                    ent = data.entities;
                     for( enty in ent){
-                        var temp = new Person(ent[enty]);
-                        entities.push( temp );
+                      console.log(ent)
+                        if(ent[enty] != null)
+                          entities.push( new Person(ent[enty]) );
+                        else
+                           entities.push( null );
                     }
+                    console.log(entities)
+                    console.log(entities.length)
             });
 
             socket.on('updatePersonInWorld', function(person){
-                
-                //TODO - direct indexing
-                for( enty in entities){
-                    if(entities[enty].sig == person.sig)
-                    {
-                         entities[enty] = new Person(person);
-                    }
-                }
+                      entities[person.sig] = new Person(person);
             });
 
-            socket.on('onDisconnectRemovePlayer', function(sig){
-                for( enty in entities){
-                    if(entities[enty].sig == sig)
-                    {
-                        delete entities[enty];
-                        entities.splice (enty, 1);                      
-                    }
-                }
+            socket.on('onDisconnectRemovePlayer', function(sig){               
+                        delete entities[sig];                   
             });
 
                    
@@ -98,29 +92,32 @@
                            
         function mainLoop(){
 
-          // var startLoop = new Date().getTime();
+          var startLoop = new Date().getTime();
+          requestAnimFrame( mainLoop );
 
-            requestAnimFrame( mainLoop );
-            Graphics.incermentTime();
+          if( personId != -1){
+          
+          person = entities[personId];         
+          Graphics.incermentTime();
 
             //clear screen
-          //  Graphics.ctx.fillStyle = "#E9EDE8";
-          //  Graphics.ctx.fillRect(0, 0, Graphics.canvas.width, Graphics.canvas.height); 
+          Graphics.ctx.fillStyle = "#E9EDE8";
+          Graphics.ctx.fillRect(0, 0, Graphics.canvas.width, Graphics.canvas.height); 
+           //Graphics.canvas.width =  Graphics.canvas.width; 
 
             //setup to draw entites             		
             for(enty in entities){
-               
-             // if(entities[enty].position.x )
-               entities[enty].update(0.24,level);
-                entities[enty].draw(level.cam);
-
-                if(entities[enty].sig ==  personId)
-                  person = entities[enty];
-                               
-                for( e in entities){
-                    if(entities[enty] != entities[e])
-                    entities[enty].checkCollision(entities[e]);
-                }       
+              
+              if(entities[enty] instanceof Person) { 
+               // if(entities[enty].position.x )
+                  entities[enty].update(0.24,level);
+                  entities[enty].draw(level.cam);
+                                 
+                  for( e in entities){
+                      if(entities[e] instanceof Person && entities[enty] != entities[e])
+                      entities[enty].checkCollision(entities[e]);
+                  }   
+                }    
             }
 
             person.keyEvents(level.cam, socket);
@@ -135,10 +132,10 @@
           
             socket.emit('updatePerson',person);
           }
-                
+        }
             
-            // var endloop = new Date().getTime();    
-            // console.log( endloop - startLoop);
+            var endloop = new Date().getTime();    
+             console.log( endloop - startLoop);
         }
              
 

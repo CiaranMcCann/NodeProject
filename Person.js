@@ -32,7 +32,7 @@ Person.prototype.update = function(dt, level) {
 
 	this.updateMessage();
 
-	this.acceleration = this.acceleration.add(this.velocity.mul(-0.4)); //firction added to player inital acc		
+	this.acceleration = this.acceleration.add(this.velocity.mul(-0.2)); //firction added to player inital acc		
 	// positon += velocity*dt + 0.5 * a * (t*t);
 
 	var temppos = this.position.add(  this.velocity.mul(dt).add( this.acceleration.mul(0.5*(dt*dt)) )   );
@@ -125,7 +125,7 @@ Person.prototype.checkCollision = function(obj){
 
 Person.prototype.keyEvents = function(cam, socket){
 	
-	var movementAmount = 9;
+	var movementAmount = 5;
 	var needsUpdate = false;
 
         if(std.isKeyDown(87)){
@@ -153,6 +153,7 @@ Person.prototype.keyEvents = function(cam, socket){
         	needsUpdate = true;
         }
         
-        if(needsUpdate && Network.okToSendMessage('updatePerson'))
-        	socket.emit('updatePerson',this);  	
+        if(needsUpdate) //&& Network.okToSendMessage('updatePerson')
+        	socket.emit('updatePerson',this);
+    	  	
 };
