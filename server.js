@@ -36,7 +36,7 @@
 
      socket.on('disconnect', function (){
     	socket.get('sig', function (err, playerSig) {
-	      		   entities[playerSig] = 0;
+	      		   entities[playerSig] = null 
 	      		   socket.broadcast.emit('onDisconnectRemovePlayer', playerSig);	      		  
 	      		});
   	 });
