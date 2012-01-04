@@ -41,7 +41,6 @@ Graphics.drawPerson =function(x, y,radius, infectionLvl, color){
 
 	//Graphics.ctx.fillStyle = "#E9EDE8";
 	//Graphics.ctx.fillRect(x - radius*3, y - radius*4, radius*6, radius*6);  dirty rects
-	Graphics.ctx.save();
 	Graphics.ctx.fillStyle = "rgba("+color.r+","+color.g+","+color.b+","+ 0.8+")";
 	Graphics.animatePulse(x,y,radius, infectionLvl, color);
 	Graphics.ctx.beginPath();
@@ -49,7 +48,6 @@ Graphics.drawPerson =function(x, y,radius, infectionLvl, color){
     Graphics.ctx.closePath();
     Graphics.ctx.stroke();
     Graphics.ctx.fill();	
-    Graphics.ctx.restore();
                   		
 }
 
@@ -61,21 +59,22 @@ Graphics.animatePulse = function(x, y,radius, infectionLvl, color){
 	gap = (infectionLvl/4);
 	maxR = infectionLvl;
 								
-	Graphics.ctx.save();       				
+	Graphics.ctx.save();
+	Graphics.ctx.strokeStyle = "rgba("+color.r+","+color.g+","+color.b+","+ 1+")";      				
+	Graphics.ctx.beginPath();
 
-		for(i = 0; i <= (maxR/gap); i++)
-		{						
-			Graphics.ctx.strokeStyle = "rgba("+color.r+","+color.g+","+color.b+","+ 1+")";
-			Graphics.ctx.lineWidth = ((maxR/gap) - i)/(gap*0.8);
-			Graphics.ctx.beginPath();
+		for(i = 0; i <= (maxR/gap); i++){
+								
+			Graphics.ctx.lineWidth = ((maxR/gap) - i)/(gap*0.8);			
 			Graphics.ctx.arc(x, y, ((i*gap)/2)+(this.time/2), 0, Math.PI * 2, true);
-			Graphics.ctx.closePath();
-			Graphics.ctx.stroke();							
+										
 			
 		}
+	Graphics.ctx.closePath();
+	Graphics.ctx.stroke();
 
-		 if(Graphics.time >= maxR)
-			Graphics.time = 1;
+	if(Graphics.time >= maxR)
+		Graphics.time = 1;
 					
 		Graphics.ctx.restore();
 }

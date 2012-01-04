@@ -7,9 +7,6 @@
 
   io.sockets.on('connection', function(socket) {
 
-    
-    
-
     //When a user connections eg: refreshs the page, a person object is
     //created for them and passed around to the other clients by the addNewPersonToWorld event
     socket.on('onConnectionCreateNewEnitiy', function(newPerson) {   
@@ -29,10 +26,10 @@
     socket.on('updatePerson', function(person){
       	
         socket.get('sig', function (err, playersig) {
-                   
-            console.log(person.sig + "   Player with sig updated " + playersig)
+
+             socket.broadcast.emit('updatePersonInWorld', person);  
              entities[playersig] = person
-             socket.broadcast.emit('updatePersonInWorld', person);   
+              
              
         });
 

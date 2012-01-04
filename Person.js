@@ -102,11 +102,8 @@ Person.prototype.heal = function(){
 Person.prototype.draw = function(cam){
 
 	Graphics.drawPerson(this.position.x+cam.position.x,this.position.y+cam.position.y,this.radius, this.infectionLvl, this.color);					
-	Graphics.ctx.save();
 	Graphics.ctx.fillStyle = "rgba("+225+","+58+","+88+","+ 0.9+")";
-	Graphics.ctx.font  = '13px helvetica';
-	std.renderWrapText(Graphics.ctx,this.msg, this.position.x+cam.position.x,this.position.y+cam.position.y-this.radius-2, 100, -12);
-	Graphics.ctx.restore();	       	
+	std.renderWrapText(Graphics.ctx,this.msg, this.position.x+cam.position.x,this.position.y+cam.position.y-this.radius-2, 100, -12);	       	
 }
 
 Person.prototype.checkCollision = function(obj){

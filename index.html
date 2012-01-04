@@ -24,7 +24,7 @@
                         
         function init(){
 
-            Network.setEventFrequency("updatePerson", 3);
+           // Network.setEventFrequency("updatePerson", 3);
 
             person = new Person({   
                 position: new Vector2D(std.rand(100,600),std.rand(100,310)), 
@@ -55,8 +55,9 @@
             });
 
             socket.on('updatePersonInWorld', function(person){
-                     // entities[person.sig] = new Person(person);
-                     entities[person.sig].velocity = std.copy(new Vector2D(0,0),person.velocity);
+                     entities[person.sig] = new Person(person);
+                    // entities[person.sig].velocity = std.copy(new Vector2D(0,0),person.velocity);
+                    // entities[person.sig].acceleration = std.copy(new Vector2D(0,0),person.velocity);
             });
 
             socket.on('onDisconnectRemovePlayer', function(sig){               
@@ -69,8 +70,9 @@
             Graphics.canvas.width = window.innerWidth;
             Graphics.canvas.height = window.innerHeight;  
 
-            //Centers any text
+            //Canvas text settings
             Graphics.ctx.textAlign = "center";
+            Graphics.ctx.font  = '13px helvetica';
 
 
             //handle the chat input box
@@ -87,14 +89,14 @@
             
                          
             level = new level();                           
-    		    mainLoop();         
+    		   setInterval("mainLoop()", 16 );         
         }
                 
                            
         function mainLoop(){
 
-          var startLoop = new Date().getTime();
-          requestAnimFrame( mainLoop );
+        //  var startLoop = new Date().getTime();
+         // requestAnimFrame( mainLoop );
 
           if( personId != -1){
           
@@ -111,7 +113,7 @@
               
               if(entities[enty] instanceof Person) { 
                // if(entities[enty].position.x )
-                  entities[enty].update(0.24,level);
+                  entities[enty].update(0.16,level);
                   entities[enty].draw(level.cam);
                                  
                   for( e in entities){
@@ -123,7 +125,7 @@
 
             person.keyEvents(level.cam, socket);
             level.update();	 
-            Network.update();
+            //Network.update();
 
 
           if(person.name == undefined){
@@ -135,8 +137,8 @@
           }
         }
             
-            var endloop = new Date().getTime();    
-             console.log( endloop - startLoop);
+           // var endloop = new Date().getTime();    
+           //  console.log( endloop - startLoop);
         }
              
 
