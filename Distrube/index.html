@@ -1,50 +1,70 @@
 <html><head><script>
 
+function rand(from, to){
+       return Math.floor(Math.random() * (to - from + 1) + from);
+}
+
 function init(){
 
-	// Coordinates of image pixel that we will modify
-var x = 10, y = 20;
+	var numbers = [];
 
-// Create a new canvas
-var canvas = document.createElement('canvas');
-canvas.width = canvas.height = 1000;
-canvas.getContext('2d').fillRect(0,0,canvas.width,canvas.height);
-document.body.appendChild(canvas);
+	for( var i = 0; i < 10000; i++ ){
 
-// Get drawing context
-var ctx = canvas.getContext('2d');
-
-// Get image data
-var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-var offset = 4;
-
-var worker = new Worker('task.js');
-worker.onmessage = function(event) {
-   console.log(event.data); 
-
-   for ( p in event.data){
-		imageData.data[p] = event.data[p];
+		 numbers.push(rand(0.1,99999)); 
 	}
 
-
-	// Put image data back into canvas
-	ctx.putImageData(imageData, 0, 0);
-};
-
-
-var temp = [];
-var d = imageData.data;
-
-for ( p in d){
-	temp.push(d[p]);
-}
-
-console.log(temp.length);
-worker.postMessage(temp);
-
-
+	worker(numbers);
 
 }
+
+
+function worker(numbers){
+	var startLoop;
+
+	var worker = new Worker('task.js');
+	worker.onmessage = function(event) {
+	   console.log(startLoop - new Date().getTime());
+	};
+
+	startLoop = new Date().getTime();
+	worker.postMessage(numbers);
+}
+
+
+function nonworker(numbers){
+	var startLoop;
+	
+	startLoop = new Date().getTime();
+
+
+	var unSortedArray= numbers;
+		var tempStorage=0;
+		var lenght=unSortedArray.length;
+		var indexLenght=lenght-1;
+		var indexPostion=0;
+
+		for(var i=0;i<indexLenght;i++)
+		{
+			while((indexPostion<indexLenght)){
+			   
+			   if(unSortedArray[indexPostion]>unSortedArray[indexPostion+1])
+			   {
+				   tempStorage=unSortedArray[indexPostion];
+				   unSortedArray[indexPostion]=unSortedArray[indexPostion+1];
+				   unSortedArray[indexPostion+1]=tempStorage
+
+			    }
+
+			    indexPostion++
+			}
+
+		indexPostion=0
+	}
+
+	   console.log(startLoop - new Date().getTime());
+
+}
+
 </script>
 </head><body onload="init()">
 </body></html>
