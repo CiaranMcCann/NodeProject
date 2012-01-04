@@ -1,4 +1,11 @@
+/*
+	The level object does a lot, the main thing it does is pre-renders the levels walls
+	to a png image which then overlayed ontop of the canvas. Some what messy code below
+	but it works for now. Rapid protoyping yea! 
 
+	@author Ciarán McCann
+
+*/
 function level()
 {
 	 
@@ -8,10 +15,9 @@ function level()
 		this.img2.style.cssText = "position:absolute;left:" + this.cam.position.x + "px;top: " + this.cam.position.y + "px; "
 
 
-		for( door in this.doors )
-		{
-			this.doors[door].update();
+		for( door in this.doors ){
 
+			this.doors[door].update();
 			//TODO - don't draw all the doors in the sence, maybe used the map array to direct index and draw only them
 			this.doors[door].draw(this.cam);
 		}
@@ -86,7 +92,6 @@ function level()
 	this.canvas.width = this.width*this.tileSize;
     this.canvas.height = this.height*this.tileSize; 
     this.cam = new Camera(new Vector2D(0,0),{h:this.height*this.tileSize,w:this.width*this.tileSize});
-    //document.body.appendChild(this.canvas);
     this.img = new Image();
     this.img2 = new Image();
 
@@ -166,16 +171,15 @@ function level()
 		var g = this.canvas.toDataURL();
 		this.img.src = g
 	
-	var div = document.createElement('div');
-	div.style.cssText ="position:absolute;left:0px;top:0px;overflow:hidden;width: " + window.innerWidth + "px;height: " + window.innerHeight + "px";
+var div = document.createElement('div');
+div.style.cssText ="position:absolute;left:0px;top:0px;overflow:hidden;width: " + window.innerWidth + "px;height: " + window.innerHeight + "px";
 
-	//this.img.style.cssText ="position:absolute;left:0px;top:0px;overflow:hidden"
-   div.appendChild(this.img);
-   this.img2.src = this.img.src;
-   this.img2.style.cssText ="position:absolute;left:-3px;top:-3px;"
-    div.appendChild(this.img2);
+div.appendChild(this.img);
+this.img2.src = this.img.src;
+this.img2.style.cssText ="position:absolute;left:-3px;top:-3px;"
+div.appendChild(this.img2);
 
-   document.body.appendChild(div);
+document.body.appendChild(div);
 
 		 
 	// Now time to id doors in the level and generate them

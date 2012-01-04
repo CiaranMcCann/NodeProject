@@ -31,11 +31,11 @@ function Door(x,y,tileSize,orientation,openDirection,partenerDoor){
 
 	Door.prototype.draw = function(cam) {
 
-		context.fillStyle = "#BBBBBB";  
+		Graphics.ctx.fillStyle = "#BBBBBB";  
 
-		//context.lineWidth   = 0.5;           
-        context.fillRect(this.pos.x+cam.position.x, this.pos.y+cam.position.y, this.width, this.height);
-        context.strokeRect(this.pos.x+cam.position.x, this.pos.y+cam.position.y, this.width, this.height);
+		//Graphics.context.lineWidth   = 0.5;           
+        Graphics.ctx.fillRect(this.pos.x+cam.position.x, this.pos.y+cam.position.y, this.width, this.height);
+        Graphics.ctx.strokeRect(this.pos.x+cam.position.x, this.pos.y+cam.position.y, this.width, this.height);
 	};
 
 	Door.prototype.update = function(){
