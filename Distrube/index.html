@@ -1,32 +1,50 @@
-
-<script>
-
-function A(){
-    this.value = 100;
-}; 
-A.prototype.test = function() {self.value}
-
-function B(){
-    B.prototype = A;
-}
-
-B.prototype = new A();
-
-
-
+<html><head><script>
 
 function init(){
 
+	// Coordinates of image pixel that we will modify
+var x = 10, y = 20;
+
+// Create a new canvas
+var canvas = document.createElement('canvas');
+canvas.width = canvas.height = 1000;
+canvas.getContext('2d').fillRect(0,0,canvas.width,canvas.height);
+document.body.appendChild(canvas);
+
+// Get drawing context
+var ctx = canvas.getContext('2d');
+
+// Get image data
+var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+var offset = 4;
+
+var worker = new Worker('task.js');
+worker.onmessage = function(event) {
+   console.log(event.data); 
+
+   for ( p in event.data){
+		imageData.data[p] = event.data[p];
+	}
 
 
-var b = new B();
+	// Put image data back into canvas
+	ctx.putImageData(imageData, 0, 0);
+};
 
-alert(b.test());
 
+var temp = [];
+var d = imageData.data;
+
+for ( p in d){
+	temp.push(d[p]);
+}
+
+console.log(temp.length);
+worker.postMessage(temp);
 
 
 
 }
 </script>
-<body onload="init()">
-</body>
+</head><body onload="init()">
+</body></html>
