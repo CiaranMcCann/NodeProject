@@ -1,6 +1,6 @@
 (function() {
   var io;
-  io = require('socket.io').listen(4000);
+  io = require('socket.io').listen(1337);
 
   var entities = [];
   var sig = -1;
